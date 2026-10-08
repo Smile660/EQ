@@ -12,3 +12,6 @@ public-stop.ps1
 # 部署工具本地缓存
 node_modules/
 .wrangler/
+
+# 本机部署脚本
+部署更新.bat
