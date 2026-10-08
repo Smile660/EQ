@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>公式识图 | 截图粘贴，公式秒变 LaTeX · MathML</title>
+  <meta name="description" content="免登录的在线公式识别工具：截图或粘贴图片，自动提取数学公式，一键复制 LaTeX、MathML、Unicode 格式，可直接粘贴到 Word / LaTeX 编辑器。" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%234C6FFF'/%3E%3Ctext x='32' y='44' font-size='36' font-family='Georgia,serif' font-style='italic' fill='%23fff' text-anchor='middle'%3E%CE%A3%3C/text%3E%3C/svg%3E" />
+  <!-- KaTeX：公式渲染 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+  <!-- 顶部导航 -->
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="#" aria-label="公式识图 首页">
+        <span class="brand-logo" aria-hidden="true">Σ</span>
+        <span class="brand-name">公式识图<em>EqLens</em></span>
+      </a>
+      <div class="nav-actions">
+        <button class="engine-badge" id="engineBadge" title="当前识别引擎，点击切换" type="button">
+          <span class="dot" id="engineDot"></span><span id="engineName">识别引擎</span>
+        </button>
+        <button class="icon-btn" id="themeBtn" title="切换深色 / 浅色模式" type="button" aria-label="切换主题">
+          <svg class="ico ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+          <svg class="ico ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+        <button class="icon-btn" id="settingsBtn" title="设置" type="button" aria-label="设置">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="page">
+    <!-- 英雄区 -->
+    <section class="hero">
+      <h1 class="hero-title">截图粘贴，公式秒变 <span class="grad">LaTeX</span></h1>
+      <p class="hero-sub">在任意位置按下 <kbd>Ctrl</kbd>+<kbd>V</kbd> 粘贴公式截图，自动识别并转为 LaTeX、MathML、Unicode 等格式，一键复制到 Word 或 LaTeX 编辑器。</p>
+      <div class="hero-chips" role="list">
+        <span class="chip" role="listitem"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>免登录 · 免安装</span>
+        <span class="chip" role="listitem"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>剪贴板直接粘贴</span>
+        <span class="chip" role="listitem"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>LaTeX / MathML / Unicode</span>
+        <span class="chip" role="listitem"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Word 直接粘贴为可编辑公式</span>
+        <span class="chip" role="listitem"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>历史记录本地保存</span>
+      </div>
+    </section>
+
+    <!-- 上传区 -->
+    <section class="workbench">
+      <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="上传、拖拽或粘贴公式图片">
+        <div class="dropzone-inner">
+          <div class="dropzone-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14.9A7 7 0 1 1 15.7 8h1.8a4.5 4.5 0 0 1 2.5 8.2"/><path d="M12 12v9"/><path d="m8 17 4-4 4 4"/></svg>
+          </div>
+          <p class="dropzone-title">点击上传、拖拽图片到此处<br/>或直接 <kbd>Ctrl</kbd>+<kbd>V</kbd> 粘贴截图</p>
+          <p class="dropzone-sub">支持 PNG / JPG / BMP / WebP，单张不超过 10MB</p>
+          <div class="dropzone-steps">
+            <span class="step"><i>1</i>截图或复制公式图片</span>
+            <span class="step-arrow" aria-hidden="true">→</span>
+            <span class="step"><i>2</i>在本页粘贴图片</span>
+            <span class="step-arrow" aria-hidden="true">→</span>
+            <span class="step"><i>3</i>选择格式一键复制</span>
+          </div>
+          <button class="btn btn-ghost btn-sm" id="trySampleBtn" type="button">没有图片？试试示例公式</button>
+        </div>
+      </div>
+
+      <!-- 工作区：识别后展示 -->
+      <div class="workspace hidden" id="workspace">
+        <div class="ws-grid">
+          <!-- 左：原图 -->
+          <div class="card img-card">
+            <div class="card-head">
+              <h3>原图</h3>
+              <div class="card-head-actions">
+                <button class="btn btn-ghost btn-sm" id="btnRetake" type="button">
+                  <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>重新上传
+                </button>
+              </div>
+            </div>
+            <div class="img-box">
+              <img id="imgPreview" alt="待识别的公式图片" />
+            </div>
+            <p class="img-meta" id="imgMeta"></p>
+          </div>
+
+          <!-- 右：识别结果 -->
+          <div class="card result-card">
+            <div class="card-head">
+              <h3>识别结果</h3>
+              <div class="status-tags">
+                <span class="tag" id="engineTag"></span>
+                <span class="tag" id="elapsedTag"></span>
+              </div>
+            </div>
+
+            <!-- 加载态 -->
+            <div class="result-loading" id="loadingBox">
+              <div class="stage-row"><span class="spinner"></span><span id="stageText">正在上传图像…</span></div>
+              <div class="skeleton sk-preview"></div>
+              <div class="skeleton sk-line"></div>
+              <div class="skeleton sk-line short"></div>
+            </div>
+
+            <!-- 错误态 -->
+            <div class="result-error hidden" id="errorBox">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+              <p id="errorMsg">识别失败，请重试。</p>
+              <p class="error-guide hidden" id="errorGuide">获取方式：<a href="https://simpletex.cn/user/center" target="_blank" rel="noopener">SimpleTex 用户中心</a> →「用户授权令牌」菜单 → 创建令牌 → 粘贴到本站设置中。</p>
+              <div class="error-actions">
+                <button class="btn btn-primary btn-sm" id="btnRetry" type="button">重试</button>
+                <button class="btn btn-primary btn-sm" id="btnEngineSettings" type="button">去配置令牌</button>
+                <a class="btn btn-ghost btn-sm" id="btnGetToken" href="https://simpletex.cn/user/center" target="_blank" rel="noopener">获取令牌 ↗</a>
+                <button class="btn btn-ghost btn-sm" id="btnDemoFallback" type="button">改用演示引擎</button>
+              </div>
+            </div>
+
+            <!-- 成功态 -->
+            <div class="result-body hidden" id="resultBody">
+              <div class="math-preview" id="mathPreview" aria-label="公式渲染预览"></div>
+
+              <label class="field-label" for="latexInput">LaTeX 源码（可编辑，实时重新渲染）</label>
+              <textarea id="latexInput" class="latex-input" spellcheck="false" placeholder="识别出的 LaTeX 源码将显示在这里"></textarea>
+
+              <div class="tabs" role="tablist" aria-label="输出格式">
+                <button class="tab" data-tab="latex" role="tab" aria-selected="true" type="button">LaTeX</button>
+                <button class="tab" data-tab="mathml" role="tab" aria-selected="false" type="button">MathML <small>Word / MathType</small></button>
+                <button class="tab" data-tab="unicode" role="tab" aria-selected="false" type="button">Unicode <small>纯文本</small></button>
+              </div>
+              <pre class="code-box" id="codeBox"><code id="codeContent"></code></pre>
+
+              <div class="actions-row">
+                <button class="btn btn-primary" id="btnCopyWord" type="button">
+                  <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z"/><path d="M14 2v5h5"/></svg>复制到 Word（MathML）
+                </button>
+                <button class="btn btn-secondary" id="btnCopyLatex" type="button">复制 LaTeX</button>
+                <button class="btn btn-secondary" id="btnCopyUnicode" type="button">复制 Unicode</button>
+              </div>
+
+              <details class="word-tips">
+                <summary>怎么粘贴到 Word / MathType / Overleaf？</summary>
+                <ul>
+                  <li><b>Word（2016 及以上）</b>：点击「复制到 Word」后，在 Word 中直接 <kbd>Ctrl</kbd>+<kbd>V</kbd>，MathML 会自动转换为可编辑的原生公式。</li>
+                  <li><b>MathType</b>：粘贴 MathML 后即可识别；或复制 LaTeX，在 MathType 中使用 <i>Toggle TeX</i> 功能转换。</li>
+                  <li><b>Overleaf / LaTeX</b>：点击「复制 LaTeX」后直接粘贴，行间公式可用 <code>\[ ... \]</code> 包裹。</li>
+                  <li><b>Markdown / 论坛</b>：复制 LaTeX，用 <code>$ ... $</code> 或 <code>$$ ... $$</code> 包裹即可。</li>
+                </ul>
+              </details>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 历史记录 -->
+    <section class="history hidden" id="historySection">
+      <div class="history-head">
+        <h2>最近识别</h2>
+        <button class="btn btn-ghost btn-sm" id="btnClearHistory" type="button">清空历史</button>
+      </div>
+      <div class="history-grid" id="historyGrid"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p class="footer-privacy">演示模式下图片完全在浏览器本地处理；真实识别模式下，图片将发送至 SimpleTex 服务器进行识别，本站与本地代理不存储任何图片，令牌仅保存在你的浏览器中。</p>
+    <p class="footer-copy">© 2026 公式识图 EqLens · 参考 <a href="https://www.simpletex.cn/ai/latex_ocr" target="_blank" rel="noopener">SimpleTex</a> 交互设计 · 基于 KaTeX 与 Temml 构建</p>
+  </footer>
+
+  <!-- 设置弹窗 -->
+  <div class="modal-backdrop hidden" id="modalBackdrop">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-head">
+        <h3 id="modalTitle">识别引擎设置</h3>
+        <button class="icon-btn" id="btnCloseModal" type="button" aria-label="关闭">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-tip">真实识别调用 SimpleTex 公式识别 API（V2.5 模型），需填写用户授权令牌（UAT），免费注册即可创建；演示引擎免配置，全部在本地运行。</p>
+        <div class="engine-options">
+          <label class="engine-option">
+            <input type="radio" name="engine" value="simpletex" />
+            <div class="engine-option-body">
+              <div class="engine-option-title">SimpleTex 真实识别<span class="tag tag-live">推荐</span></div>
+              <div class="engine-option-desc">识别任意公式截图（手写 / 打印体），按 SimpleTex 计费策略享有免费额度。</div>
+            </div>
+          </label>
+          <label class="engine-option">
+            <input type="radio" name="engine" value="demo" />
+            <div class="engine-option-body">
+              <div class="engine-option-title">演示引擎<span class="tag tag-ok">免配置</span></div>
+              <div class="engine-option-desc">内置示例公式池，全部本地运行，无需令牌即可体验完整产品功能。</div>
+            </div>
+          </label>
+        </div>
+        <div class="token-wrap" id="tokenWrap">
+          <label class="field-label" for="tokenInput">用户授权令牌（UAT）</label>
+          <input type="password" id="tokenInput" class="input" placeholder="粘贴你在 SimpleTex 用户中心创建的 Token" autocomplete="off" />
+          <p class="field-help">获取方式：<a href="https://simpletex.cn/user/center" target="_blank" rel="noopener">SimpleTex 用户中心</a> → 「用户授权令牌」菜单 → 创建。令牌仅保存在你本地的浏览器中。</p>
+
+          <label class="field-label">识别模型</label>
+          <div class="model-options">
+            <label class="model-option">
+              <input type="radio" name="model" value="standard" />
+              <span class="model-name">标准 V2.5<small>效果更好 · 每月 500 次免费</small></span>
+            </label>
+            <label class="model-option">
+              <input type="radio" name="model" value="turbo" />
+              <span class="model-name">轻量 V2.5<small>速度更快 · 每日 2000 次免费</small></span>
+            </label>
+          </div>
+          <p class="field-help field-warn" id="corsHint"></p>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn btn-ghost" id="btnCancelSettings" type="button">取消</button>
+        <button class="btn btn-primary" id="btnSaveSettings" type="button">保存设置</button>
+      </div>
+    </div>
+  </div>
+
+  <input type="file" id="fileInput" accept="image/png,image/jpeg,image/bmp,image/webp" hidden />
+  <div class="toast-wrap" id="toastWrap" aria-live="polite"></div>
+
+  <!-- KaTeX：渲染；Temml：生成 MathML -->
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/temml@0.13.5/dist/temml.min.js"></script>
+  <script defer src="assets/js/convert.js"></script>
+  <script defer src="assets/js/engine.js"></script>
+  <script defer src="assets/js/app.js"></script>
+</body>
+</html>

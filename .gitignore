@@ -1,0 +1,14 @@
+# 本地调试产物
+.server.log
+.tmp-*
+__pycache__/
+
+# 本机专属的临时隧道启停脚本（线上部署后不再需要）
+public-start.ps1
+public-stop.ps1
+启动公网访问.bat
+停止公网访问.bat
+
+# 部署工具本地缓存
+node_modules/
+.wrangler/
