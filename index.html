@@ -8,7 +8,7 @@
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%234C6FFF'/%3E%3Ctext x='32' y='44' font-size='36' font-family='Georgia,serif' font-style='italic' fill='%23fff' text-anchor='middle'%3E%CE%A3%3C/text%3E%3C/svg%3E" />
   <!-- KaTeX：公式渲染 -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
-  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/style.css?v=3" />
 </head>
 <body>
   <!-- 顶部导航 -->
@@ -132,11 +132,11 @@
               <pre class="code-box" id="codeBox"><code id="codeContent"></code></pre>
 
               <div class="actions-row">
-                <button class="btn btn-primary" id="btnCopyWord" type="button">
+                <button class="btn btn-primary" id="btnCopyWord" type="button" title="以 MathML 富文本写入剪贴板，粘贴到 Word 自动变为可编辑公式">
                   <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z"/><path d="M14 2v5h5"/></svg>复制到 Word（MathML）
                 </button>
-                <button class="btn btn-secondary" id="btnCopyLatex" type="button">复制 LaTeX</button>
-                <button class="btn btn-secondary" id="btnCopyUnicode" type="button">复制 Unicode</button>
+                <button class="btn btn-secondary" id="btnCopyLatex" type="button" title="复制 LaTeX 源码，用于 Overleaf / Markdown / MathType">复制 LaTeX</button>
+                <button class="btn btn-secondary" id="btnCopyUnicode" type="button" title="复制 Unicode 纯文本（适合聊天/笔记）。注意：粘贴到 Word 是普通文本，不会变成公式">复制 Unicode</button>
               </div>
 
               <details class="word-tips">
@@ -228,8 +228,9 @@
   <!-- KaTeX：渲染；Temml：生成 MathML -->
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/temml@0.13.5/dist/temml.min.js"></script>
-  <script defer src="assets/js/convert.js"></script>
-  <script defer src="assets/js/engine.js"></script>
-  <script defer src="assets/js/app.js"></script>
+  <script defer src="assets/js/convert.js?v=3"></script>
+  <script defer src="assets/js/preprocess.js?v=3"></script>
+  <script defer src="assets/js/engine.js?v=3"></script>
+  <script defer src="assets/js/app.js?v=3"></script>
 </body>
 </html>

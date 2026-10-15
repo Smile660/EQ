@@ -123,23 +123,27 @@
   }
 
   /**
-   * 复制 MathML 到 Word：同时写入 text/html 与 text/plain，
-   * Word 粘贴 text/html 中的 MathML 会自动转为可编辑公式
+   * 复制 MathML 到 Word：text/html 写 MathML（Word 粘贴时自动转为可编辑公式），
+   * text/plain 写 Unicode 可读文本——不写 MathML 源码，避免本机装了 MathType 时
+   * 其剪贴板钩子从纯文本通道抓到 MathML 并尝试 OLE 转换（弹出
+   * "Automation Error / unknown error updating this equation"）。
+   * 返回 { ok, rich }：rich = false 表示富剪贴板不可用、只写入了纯文本。
    */
-  async function copyMathMLForWord(mml) {
+  async function copyMathMLForWord(mml, plain) {
     if (window.ClipboardItem && navigator.clipboard && navigator.clipboard.write) {
       try {
         const item = new ClipboardItem({
           'text/html': new Blob(['<meta charset="utf-8">' + mml], { type: 'text/html' }),
-          'text/plain': new Blob([mml], { type: 'text/plain' })
+          'text/plain': new Blob([plain || mml], { type: 'text/plain' })
         });
         await navigator.clipboard.write([item]);
-        return true;
+        return { ok: true, rich: true };
       } catch (e) {
         console.warn('[EQ] 富文本剪贴板不可用，降级为纯文本复制:', e);
       }
     }
-    return copyText(mml);
+    const ok = await copyText(plain || mml);
+    return { ok: ok, rich: false };
   }
 
   /* ============================================================
@@ -275,7 +279,7 @@
   const STAGES = ['正在上传图像…', '正在检测公式区域…', '正在解码 LaTeX…', '正在整理输出格式…'];
   let stageTimer = null;
 
-  function recognizeFlow() {
+  async function recognizeFlow() {
     el.loadingBox.classList.remove('hidden');
     el.errorBox.classList.add('hidden');
     el.resultBody.classList.add('hidden');
@@ -291,17 +295,43 @@
       sampleIndex: state.image.sampleIndex
     };
 
+    // 真实识别前自动增强图像：SimpleTex 接口无质量参数，小尺寸分数、
+    // 深色截图、低对比度照片是误识别的主要来源（预处理失败则用原图）
+    if (state.settings.engine === 'simpletex' && payload.blob && payload.sampleIndex == null && EQ.preprocess) {
+      try {
+        const prep = await EQ.preprocess.preprocessBlob(payload.blob);
+        if (prep && prep.blob && prep.blob.size <= MAX_FILE_MB * 1024 * 1024) {
+          payload.blob = prep.blob;
+          payload.dataUrl = prep.dataUrl;
+          const p = prep.plan || {};
+          if (p.scale !== 1 || p.invert || p.stretch) {
+            const what = [
+              p.scale !== 1 ? '放大 ×' + p.scale : '',
+              p.invert ? '反色' : '',
+              p.stretch ? '增强对比' : '',
+              '加白边'
+            ].filter(Boolean).join(' · ');
+            toast('已自动增强图像', 'info', what);
+          }
+        }
+      } catch (e) {
+        console.warn('[EQ] 图像增强失败，使用原图继续:', e);
+      }
+    }
+
     EQ.engines.recognizeImage(payload, state.settings).then(res => {
       clearInterval(stageTimer);
+      // 规范化 OCR 排版残留（公式间 \newline、尾部 \\ 等），避免渲染出多余的行
+      const latex = C.normalizeOcrLatex(res.latex);
       state.result = {
-        latex: res.latex,
+        latex: latex,
         confidence: res.confidence,
         elapsed: res.elapsed,
         engineName: res.engine.name,
         isDemo: res.engine.isDemo
       };
       showResult();
-      addHistory(res.latex, res.engine.name, res.engine.isDemo);
+      addHistory(latex, res.engine.name, res.engine.isDemo);
     }).catch(err => {
       clearInterval(stageTimer);
       console.error('[EQ] 识别失败:', err);
@@ -438,7 +468,7 @@
     const fmt = getFormats();
     if (!fmt.unicode) return toast('暂无内容可复制', 'err');
     (await copyText(fmt.unicode))
-      ? toast('Unicode 文本已复制', 'ok', '适合粘贴到聊天 / 笔记')
+      ? toast('Unicode 文本已复制', 'ok', '适合聊天 / 笔记；粘贴到 Word 是普通文本，要可编辑公式请点「复制到 Word」')
       : toast('复制失败', 'err');
   });
 
@@ -448,10 +478,13 @@
       toast('MathML 生成失败', 'err', fmt.mathmlError || '请检查公式源码');
       return;
     }
-    const ok = await copyMathMLForWord(fmt.mathml);
-    ok
-      ? toast('已复制 MathML', 'ok', '打开 Word 直接 Ctrl+V 即可变为可编辑公式')
-      : toast('复制失败', 'err', '可切换到 MathML 标签手动复制');
+    const res = await copyMathMLForWord(fmt.mathml, fmt.unicode);
+    if (!res.ok) return toast('复制失败', 'err', '可切换到 MathML 标签手动复制');
+    if (res.rich) {
+      toast('已复制 Word 公式', 'ok', '到 Microsoft Word 直接 Ctrl+V（WPS 不支持 MathML 粘贴；勿用“只保留文本”）');
+    } else {
+      toast('已复制纯文本', 'info', '当前页面不支持富文本剪贴板，请经 localhost / https 访问后重试');
+    }
   });
 
   /* ============================================================
